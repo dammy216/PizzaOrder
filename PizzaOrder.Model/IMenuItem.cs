@@ -2,7 +2,8 @@
 {
     public interface IMenuItem
     {
-        PizzaMenu PizzaName { get; }
-        int PizzaValue { get; }
+        string DetaillName { get; }
+        int DetaillValue { get; }
+
     }
 }

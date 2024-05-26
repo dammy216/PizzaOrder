@@ -43,9 +43,11 @@
   <ItemGroup>
     <Compile Include="IMenuItem.cs" />
     <Compile Include="Pizza.cs" />
+    <Compile Include="PizzaManager.cs" />
     <Compile Include="PizzaMenu.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Topping.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
