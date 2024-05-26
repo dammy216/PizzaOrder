@@ -1,9 +1,10 @@
-﻿namespace PizzaOrder.Model
+﻿using System.Collections.Generic;
+
+namespace PizzaOrder.Model
 {
     public interface IMenuItem
     {
-        string DetaillName { get; }
-        int DetaillValue { get; }
-
+        List<string> DetailNameList();
+        List<int> DetailValueList();
     }
 }

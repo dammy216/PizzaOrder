@@ -25,16 +25,47 @@ namespace PizzaOrder.Model
                 // チーズはプレーンピザに含まれているため、加算しない
                 if (topping != Topping.チーズ && topping != Topping.トマト)
                 {
-                    return totalValue = PizzaManager.GetToppingPrice(topping);
+                    totalValue += PizzaManager.GetToppingPrice(topping);
                 }
             }
+            return totalValue;
         }
+
 
         //-------------------------------------詳細用---------------------------------------------
 
+        public List<string> DetailNameList()
+        {
+            var list = new List<string>();
 
-        public string DetaillName => throw new System.NotImplementedException();
+            list.Add(PizzaMenu.プレーン.ToString());
+            foreach (Topping topping in _toppings)
+            {
+                list.Add(topping.ToString());
+            }
+            return list;
+        }
 
-        public int DetaillValue => throw new System.NotImplementedException();
+        public List<int> DetailValueList()
+        {
+            var values = new List<int>();
+
+            values.Add(PizzaManager.GetPizzaPrice(PizzaMenu.プレーン));
+            foreach (var topping in _toppings)
+            {
+                if (topping != Topping.チーズ && topping != Topping.トマト)
+                {
+                    values.Add(PizzaManager.GetToppingPrice(topping));
+                }
+                else
+                {
+                    values.Add(0);
+                }
+            }
+
+            return values;
+        }
+
+
     }
 }

@@ -9,10 +9,7 @@ namespace PizzaOrder.Model
         public List<Pizza> PizzaList { get { return _pizzaList; } }
         private Pizza _resultPizza;
 
-        /// <summary>
-        /// ピザの値段を返す
-        /// </summaryname="pizza"></param>
-        /// <returns>ピザ
+        //ピザの値段を返す
         public static int GetPizzaPrice(PizzaMenu pizza)
         {
             switch (pizza)
@@ -32,12 +29,7 @@ namespace PizzaOrder.Model
             }
         }
 
-        /// <summary>
-        /// トッピングの値段を返す
-        /// </summary>
-        /// <param name="topping"></param>
-        /// <returns>トッピングの値段</returns>
-        /// <exception cref="NotImplementedException"></exception>
+        //トッピングの値段を返す
         public static int GetToppingPrice(Topping topping)
         {
             switch (topping)
@@ -66,5 +58,20 @@ namespace PizzaOrder.Model
                     throw new NotImplementedException();
             }
         }
+
+        public string[,] GetListViewItems(Pizza pizza)
+        {
+            var names = (pizza as IMenuItem).DetailNameList();
+            var price = (pizza as IMenuItem).DetailValueList();
+
+            string[,] menuItem = new string[names.Count, 2]; // namesの数だけ行を持ち、2列を持つ2次元配列
+            for (int i = 0; i < names.Count; i++)
+            {
+                menuItem[i, 0] = names[i]; // 1列目にはnamesを設定
+                menuItem[i, 1] = price[i].ToString(); // 2列目にはvaluesを設定
+            }
+            return menuItem;
+        }
+
     }
 }

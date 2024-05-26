@@ -76,5 +76,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PizzaOrder.Model\PizzaOrder.Model.csproj">
+      <Project>{cd0872bb-a4a0-4898-9f45-ac28fb2161f0}</Project>
+      <Name>PizzaOrder.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
