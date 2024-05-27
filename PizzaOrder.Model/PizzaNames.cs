@@ -1,6 +1,6 @@
 ﻿namespace PizzaOrder.Model
 {
-    public enum PizzaMenu
+    public enum PizzaNames
     {
         プレーン,
         マルゲリータ,

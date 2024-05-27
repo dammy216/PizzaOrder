@@ -1,8 +1,18 @@
-﻿namespace PizzaOrder.Model
+﻿using System.Collections.Generic;
+
+namespace PizzaOrder.Model
 {
-    public abstract class Pizza
+    public class Pizza : IMenuItem
     {
-        public abstract PizzaMenu OrderedName { get; }
-        public abstract int GetTotalValue();
+        public string Name { get; }
+        public int Price { get; }
+        public List<Topping> DefaultToppings { get; }
+
+        public Pizza(string name, int price, List<Topping> defaultToppings)
+        {
+            Name = name;
+            Price = price;
+            DefaultToppings = defaultToppings;
+        }
     }
 }

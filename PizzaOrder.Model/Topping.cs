@@ -1,16 +1,14 @@
 ﻿namespace PizzaOrder.Model
 {
-    public enum Topping
+    public class Topping : IMenuItem
     {
-        チーズ,
-        フライドガーリック,
-        モッツァレラチーズ,
-        シーフードミックス,
-        ホタテ,
-        バジル,
-        トマト,
-        ツナ,
-        コーン,
-        ベーコン,
+        public string Name { get; }
+        public int Price { get; }
+
+        public Topping(string name, int price)
+        {
+            Name = name;
+            Price = price;
+        }
     }
 }
