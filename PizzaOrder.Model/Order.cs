@@ -4,37 +4,51 @@ namespace PizzaOrder.Model
 {
     public class Order
     {
-        public Pizza Pizza { get; private set; }
-        public List<Topping> AdditionalToppings { get; private set; }
+        public PizzaBase Pizza { get; private set; }
+        public List<ToppingBase> AdditionalToppings { get; private set; }
+        public HashSet<IMenuItem> MenuItems { get; private set; }
 
-        public Order(Pizza pizza, List<Topping> additionalToppings)
+        public Order(PizzaBase pizza, List<ToppingBase> additionalToppings)
         {
             Pizza = pizza;
             AdditionalToppings = additionalToppings;
+            UnionToppings();
         }
 
-        public void UpdateToppings(List<Topping> newToppings)
+        public void UpdateToppings(List<ToppingBase> newToppings)
         {
             AdditionalToppings = newToppings;
+            UnionToppings();
         }
 
-        public void UpdatePizza(Pizza newPizza)
+        public void UpdatePizza(PizzaBase newPizza)
         {
             Pizza = newPizza;
             AdditionalToppings.Clear(); // ピザが変更された場合、追加トッピングをリセット
+            UnionToppings();
         }
 
-        public int CalculateTotalPrice()
+        public void UnionToppings()
         {
-            int price = Pizza.Price;
+            MenuItems.Clear();
+            MenuItems.Add(Pizza);
             foreach (var topping in Pizza.DefaultToppings)
             {
-                price += topping.Price;
+                MenuItems.Add(topping);
             }
 
             foreach (var topping in AdditionalToppings)
             {
-                price += topping.Price;
+                MenuItems.Add(topping);
+            }
+        }
+
+        public int CalculateSubTotalPrice()
+        {
+            int price = 0;
+            foreach (var item in MenuItems)
+            {
+                price += item.Price;
             }
 
             return price;
