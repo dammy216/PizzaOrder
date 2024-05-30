@@ -40,6 +40,19 @@ namespace PizzaOrder.Model
             string[] menus = { menu.Name, menu.Price.ToString() };
             return menus;
         }
+        public string[,] GetListViewItems(Pizza pizza)
+        {
+            var names = (pizza as IMenuItem).DetailNameList();
+            var price = (pizza as IMenuItem).DetailValueList();
+
+            string[,] menuItem = new string[names.Count, 2]; // namesの数だけ行を持ち、2列を持つ2次元配列
+            for (int i = 0; i < names.Count; i++)
+            {
+                menuItem[i, 0] = names[i]; // 1列目にはnamesを設定
+                menuItem[i, 1] = price[i].ToString(); // 2列目にはvaluesを設定
+            }
+            return menuItem;
+        }
 
         //public void CheckAndAutoCorrectOrder(Order order)
         //{
