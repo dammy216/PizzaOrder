@@ -28,24 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "プレーン",
             "¥1200"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "マルゲリータ",
             "¥1500"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "シーフード",
             "¥1400"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "チーズ",
             "¥100"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "フライドガーリック",
             "¥150"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "モッツァレラチーズ",
             "¥300"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            "トマト",
+            "¥250"}, -1);
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -66,19 +69,21 @@
             this.columnHeader2});
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
-            listViewItem7.StateImageIndex = 0;
-            listViewItem8.StateImageIndex = 0;
-            listViewItem9.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7,
-            listViewItem8,
-            listViewItem9});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.listView1.Location = new System.Drawing.Point(97, 47);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(183, 155);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listView1_ItemCheck);
+            this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
             // 
             // columnHeader1
             // 
@@ -114,19 +119,23 @@
             this.columnHeader4});
             this.listView2.FullRowSelect = true;
             this.listView2.HideSelection = false;
-            listViewItem10.StateImageIndex = 0;
-            listViewItem11.StateImageIndex = 0;
-            listViewItem12.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
+            listViewItem7.StateImageIndex = 0;
             this.listView2.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem10,
-            listViewItem11,
-            listViewItem12});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7});
             this.listView2.Location = new System.Drawing.Point(97, 252);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(183, 187);
             this.listView2.TabIndex = 3;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
+            this.listView2.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listView2_ItemCheck);
+            this.listView2.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView2_ItemChecked);
             // 
             // columnHeader3
             // 
