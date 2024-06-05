@@ -8,7 +8,7 @@ namespace PizzaOrder.Model
 
         public override int Price => 1200;
 
-        public override List<ToppingBase> DefaultToppings { get; } = new List<ToppingBase> { new Tomato(), new Cheese() };
+        public override List<DefaultTopping> DefaultToppings { get; } = new List<DefaultTopping> { new DefaultTopping("トマト"), new DefaultTopping("チーズ") };
     }
 }
 

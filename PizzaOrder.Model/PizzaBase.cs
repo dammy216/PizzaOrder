@@ -6,6 +6,6 @@ namespace PizzaOrder.Model
     {
         public abstract string Name { get; }
         public abstract int Price { get; }
-        public abstract List<ToppingBase> DefaultToppings { get; }
+        public abstract List<DefaultTopping> DefaultToppings { get; }
     }
 }

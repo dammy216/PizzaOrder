@@ -5,14 +5,13 @@ namespace PizzaOrder.Model
     public class Order
     {
         public PizzaBase Pizza { get; private set; }
-        public List<ToppingBase> AdditionalToppings { get; private set; }
+        public List<ToppingBase> AdditionalToppings { get; private set; } = new List<ToppingBase>();
         public HashSet<IMenuItem> MenuItems { get; private set; }
 
         public Order(PizzaBase pizza, List<ToppingBase> additionalToppings)
         {
             Pizza = pizza;
             AdditionalToppings = additionalToppings;
-            UnionToppings();
         }
 
         public void UpdateToppings(List<ToppingBase> newToppings)

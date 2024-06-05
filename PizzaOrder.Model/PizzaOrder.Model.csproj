@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pizzas\Margherita.cs" />
+    <Compile Include="Pizzas\SeaFood.cs" />
+    <Compile Include="Toppings\Basil.cs" />
     <Compile Include="Toppings\Cheese.cs" />
     <Compile Include="DefaultTopping.cs" />
     <Compile Include="IMenuItem.cs" />
@@ -50,7 +53,9 @@
     <Compile Include="Enums\PizzaNames.cs" />
     <Compile Include="Pizzas\Plain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Toppings\MozzarellaCheese.cs" />
     <Compile Include="Toppings\Scallops.cs" />
+    <Compile Include="Toppings\SeaFoodMix.cs" />
     <Compile Include="Toppings\Tomato.cs" />
     <Compile Include="ToppingBase.cs" />
     <Compile Include="Enums\ToppingNames.cs" />

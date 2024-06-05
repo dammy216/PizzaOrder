@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using PizzaOrder.Model.Pizzas;
+using PizzaOrder.Model.Toppings;
+using System;
+using System.Collections.Generic;
 
 namespace PizzaOrder.Model
 {
     public class OrderManager
     {
         private List<Order> _orders = new List<Order>();
+
         public List<Order> Orders { get { return _orders; } }
+
 
         public void AddOrder(PizzaBase pizza, List<ToppingBase> additionalToppings)
         {
@@ -18,15 +23,69 @@ namespace PizzaOrder.Model
             _orders.Remove(order);
         }
 
-        public List<Order> GetOrders()
+        //public List<Order> GetOrders()
+        //{
+        //    return _orders;
+        //}
+
+        //// 追加課題の機能
+        //public void ModifyOrder(Order order, List<ToppingBase> newToppings)
+        //{
+        //    order.UpdateToppings(newToppings);
+        //}
+
+        public PizzaBase CreatePizza(string name)
         {
-            return _orders;
+            if (!Enum.TryParse(name, out PizzaNames pizzaNames))
+                throw new Exception();
+
+            switch (pizzaNames)
+            {
+                case PizzaNames.プレーン:
+                    return new Plain();
+                case PizzaNames.シーフード:
+                    return new SeaFood();
+                case PizzaNames.マルゲリータ:
+                    return new Margherita();
+                default:
+                    throw new ArgumentException();
+            }
         }
 
-        // 追加課題の機能
-        public void ModifyOrder(Order order, List<ToppingBase> newToppings)
+        public List<ToppingBase> CreateTopping(string name)
         {
-            order.UpdateToppings(newToppings);
+            var toppings = new List<ToppingBase>();
+
+            if (!Enum.TryParse(name, out ToppingNames toppingNames))
+                throw new Exception();
+
+            switch (toppingNames)
+            {
+                case ToppingNames.チーズ:
+                    toppings.Add(new Cheese());
+                    break;
+                case ToppingNames.シーフードミックス:
+                    toppings.Add(new SeaFoodMix());
+                    break;
+                case ToppingNames.ホタテ:
+                    toppings.Add(new Scallops());
+                    break;
+                case ToppingNames.トマト:
+                    toppings.Add(new Tomato());
+                    break;
+                case ToppingNames.ツナ:
+                    toppings.Add(new Tuna());
+                    break;
+                case ToppingNames.モッツァレラチーズ:
+                    toppings.Add(new MozzarellaCheese());
+                    break;
+                case ToppingNames.バジル:
+                    toppings.Add(new Basil());
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+            return toppings;
         }
 
         public string[] GetOrderListViewItem(Order order)

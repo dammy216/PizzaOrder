@@ -1,12 +1,20 @@
 ﻿using PizzaOrder.Model;
+using PizzaOrder.Model.Pizzas;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PizzaOrder
 {
     public partial class OrderListView : Form
     {
-        public PizzaBase ResultPizza { get; private set; }
+        private OrderManager _orderManager = new OrderManager();
+        private List<string> _defaultToppings = new List<string>();
+        private List<string> _addedToppings = new List<string>();
+        public PizzaBase ResultPizza { get; set; }
+        public List<ToppingBase> ResultToppings { get; set; } = new List<ToppingBase>();
 
         public OrderListView()
         {
@@ -20,62 +28,105 @@ namespace PizzaOrder
 
         private void okButton_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            //listView2.ItemCheck -= listView1_ItemCheck; // イベントを一時的に解除
-            //listView2.Items[0].Checked = true; // Item 2をチェック状態にする
-            //listView2.ItemCheck += listView1_ItemCheck; // イベントを再度追加
-        }
-
-        private void listView2_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            //特定のアイテムのチェック状態変更を無効にする
-            //if (e.Index == 0 && listView2.Items[e.Index].Checked)
-            //{
-            //    e.NewValue = CheckState.Checked; // チェック状態を維持
-            //}
-        }
-
-        private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
-            // イベントを一時的に解除
-            listView2.ItemChecked -= listView2_ItemChecked;
-
-            // Item 2を常にチェック状態にする
-            if (e.Item.Checked && e.Item.Index == 0)
+            foreach (ListViewItem item in pizzaList.CheckedItems)
             {
-                listView2.Items[0].Checked = true;
-                listView2.Items[1].Checked = false;
-
+                ResultPizza = _orderManager.CreatePizza(item.Text);
             }
-            else if (e.Item.Index == 1 && e.Item.Checked)
+            foreach (ListViewItem item in toppingList.CheckedItems)
             {
-                listView2.Items[1].Checked = true;
-                listView2.Items[0].Checked = false;
+                ResultToppings = _orderManager.CreateTopping(item.Text);
+            }
+            DialogResult = DialogResult.OK;
+        }
 
+        private void pizzaList_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (e.Item.Checked)
+            {
+                toppingList.Enabled = true;
+                _defaultToppings.Clear();
+
+                foreach (ListViewItem item in pizzaList.Items)
+                {
+                    if (item.Index != e.Item.Index)
+                    {
+                        item.Checked = false;
+                    }
+                }
+
+                ToppingList_CheckChanged(_orderManager.CreatePizza(e.Item.Text));
+
+                okButton.Enabled = true;
+                toppingList.Enabled = true;
             }
             else
             {
-                listView2.Items[0].Checked = false;
-                listView2.Items[1].Checked = false;
+                ToppingList_false();
             }
-
-            // イベントを再度追加
-            listView2.ItemChecked += listView2_ItemChecked;
         }
 
-        private void listView2_ItemChecked(object sender, ItemCheckedEventArgs e)
+        private void ToppingList_false()
         {
-            // 特定のアイテムのチェック状態変更を無効にする
-            if (e.Item.Index == 0 && !e.Item.Checked)
+            okButton.Enabled = false;
+            _defaultToppings.Clear();
+            toppingList.Enabled = false;
+
+
+
+            foreach (ListViewItem toppingItem in toppingList.Items)
             {
-                e.Item.Checked = true; // チェック状態を維持
+                toppingItem.Checked = false;
+                toppingItem.BackColor = SystemColors.Window;
             }
-            else if (e.Item.Index == 1 && !e.Item.Checked)
+        }
+
+        private void ToppingList_CheckChanged(PizzaBase pizza)
+        {
+            foreach (ListViewItem toppingItem in toppingList.Items)
+            {
+                toppingItem.Checked = false;
+                toppingItem.BackColor = SystemColors.Window;
+
+                if (_addedToppings.Any(topping => topping == toppingItem.Text))
+                {
+                    toppingItem.Checked = true;
+                }
+
+
+                if (pizza.DefaultToppings.Any(topping => topping.Name == toppingItem.Text))
+                {
+                    toppingItem.Checked = true;
+                    toppingItem.BackColor = SystemColors.ControlDark;
+                    _defaultToppings.Add(toppingItem.Text);
+                }
+            }
+        }
+        private void toppingList_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (_defaultToppings.Contains(e.Item.Text))
+            {
                 e.Item.Checked = true;
+            }
+
+            var selectedTopping = new List<string>();
+            foreach (ListViewItem toppingItem in toppingList.CheckedItems)
+            {
+                selectedTopping.Add(toppingItem.Text);
+            }
+
+            _addedToppings = selectedTopping.Except(_defaultToppings).ToList();
+
+            if (new Margherita().DefaultToppings.All(topping => selectedTopping.Contains(topping.Name)))
+            {
+                foreach (ListViewItem item in pizzaList.Items)
+                {
+                    if (item.Text == new Margherita().Name)
+                    {
+                        item.Checked = true;
+                        break;
+                    }
+                }
+            }
         }
     }
 }
