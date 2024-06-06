@@ -1,5 +1,4 @@
 ﻿using PizzaOrder.Model;
-using PizzaOrder.Model.Pizzas;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -82,86 +81,96 @@ namespace PizzaOrder
         {
             foreach (ListViewItem toppingItem in toppingList.Items)
             {
-                toppingItem.Checked = false;
                 toppingItem.BackColor = SystemColors.Window;
-
-                if (_addedToppings.Any(topping => topping == toppingItem.Text))
-                {
-                    toppingItem.Checked = true;
-                }
 
                 if (pizza.DefaultToppings.Any(topping => topping.Name == toppingItem.Text))
                 {
                     toppingItem.Checked = true;
+
                     toppingItem.BackColor = SystemColors.ControlDark;
+
                     _defaultToppings.Add(toppingItem.Text);
                 }
             }
         }
 
+        //トッピングにチェックが入った時の処理 
         private void toppingList_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
+            var selectedToppings = new List<string>();
+
             if (_defaultToppings.Contains(e.Item.Text))
             {
                 e.Item.Checked = true;
             }
 
-            var selectedTopping = new List<string>();
             foreach (ListViewItem toppingItem in toppingList.CheckedItems)
             {
-                selectedTopping.Add(toppingItem.Text);
+                selectedToppings.Add(toppingItem.Text);
             }
 
-            _addedToppings = selectedTopping.Except(_defaultToppings).ToList();
-
-            CheckAndAutoSelectPizza(selectedTopping);
+            _addedToppings = selectedToppings.Except(_defaultToppings).ToList();
+            CheckAndAutoSelectPizza(_orderManager.ReturnPizza_FromSelectedTopping(selectedToppings));
         }
 
-        private void CheckAndAutoSelectPizza(List<string> selectedToppings)
+        //トッピングチェック時にトッピングの内容からピザの変更をする処理 
+        private void CheckAndAutoSelectPizza(PizzaBase pizza)
         {
-            List<PizzaBase> allPizzas = new List<PizzaBase> { new Margherita() /* 他のピザも同様に追加 */ };
+            if (pizza == null)
+                return;
 
-            foreach (var pizza in allPizzas)
+            if (pizzaList.CheckedItems[0].Text == pizza.Name)
+                return;
+
+            var currentSubtotal = 0;
+
+            if (int.TryParse(pizzaList.CheckedItems[0].Tag.ToString(), out int pizzaPrice))
+                currentSubtotal = pizzaPrice;
+
+            foreach (ListViewItem topping in toppingList.CheckedItems)
+
             {
-                if (pizza.DefaultToppings.Select(t => t.Name).OrderBy(t => t).SequenceEqual(selectedToppings.OrderBy(t => t)))
+                if (int.TryParse(topping.Tag.ToString(), out int toppingPrice))
+
                 {
-                    MessageBox.Show($"選択されたトッピングにより、注文内容が {pizza.Name} に変更されました。");
-
-                    // 現在のピザの選択をリセット
-                    foreach (ListViewItem item in pizzaList.Items)
-                    {
-                        item.Checked = false;
-                    }
-
-                    // 新しいピザを選択状態に
-                    foreach (ListViewItem item in pizzaList.Items)
-                    {
-                        if (item.Text == pizza.Name)
-                        {
-                            item.Checked = true;
-                            break;
-                        }
-                    }
-
-                    // 新しいピザのデフォルトトッピングを含むリストを生成
-                    var newPizzaToppings = pizza.DefaultToppings.Select(t => t.Name).ToList();
-                    var allSelectedToppings = newPizzaToppings.Union(_addedToppings).ToList();
-
-                    // トッピングリストをリセットし、保持している追加トッピングをチェック
-                    ToppingList_CheckChanged(pizza);
-
-                    // 追加トッピングを再チェック
-                    foreach (ListViewItem toppingItem in toppingList.Items)
-                    {
-                        if (allSelectedToppings.Contains(toppingItem.Text))
-                        {
-                            toppingItem.Checked = true;
-                        }
-                    }
-
-                    return;
+                    currentSubtotal += toppingPrice;
                 }
             }
+
+            int newSubtotal = pizza.Price;
+            foreach (var toppingName in _addedToppings)
+            {
+                var toppingItem = toppingList.Items.Cast<ListViewItem>().FirstOrDefault(t => t.Text == toppingName);
+                if (toppingItem != null && int.TryParse(toppingItem.Tag.ToString(), out int toppingPrice))
+                {
+                    newSubtotal += toppingPrice;
+                }
+            }
+
+            if (currentSubtotal < newSubtotal)
+                return;
+
+
+            pizzaList.ItemChecked -= pizzaList_ItemChecked;
+
+            foreach (ListViewItem item in pizzaList.Items)
+            {
+                item.Checked = false;
+            }
+
+            foreach (ListViewItem item in pizzaList.Items)
+            {
+                if (item.Text == pizza.Name)
+                {
+                    item.Checked = true;
+                    ToppingList_CheckChanged(pizza);
+                }
+            }
+            pizzaList.ItemChecked += pizzaList_ItemChecked;
+
+            return;
+
+
         }
     }
 }

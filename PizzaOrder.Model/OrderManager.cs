@@ -2,6 +2,7 @@
 using PizzaOrder.Model.Toppings;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PizzaOrder.Model
 {
@@ -100,14 +101,18 @@ namespace PizzaOrder.Model
             return menus;
         }
 
-        //public void CheckAndAutoCorrectOrder(Order order)
-        //{
-        //    // シーフードピザにホタテとバジルを追加した場合のチェック
-        //    if (order.Pizza.Name == "シーフード" && order.AdditionalToppings.Exists(t => t.Name == "ホタテ") && order.AdditionalToppings.Exists(t => t.Name == "バジル"))
-        //    {
-        //        var newPizza = _pizzasList.First(p => p.Name == "ペスカトーレ");
-        //        order.UpdatePizza(newPizza);
-        //    }
-        //}
+        public PizzaBase ReturnPizza_FromSelectedTopping(List<string> selectedToppings)
+        {
+            List<PizzaBase> allPizzas = new List<PizzaBase> { new Plain(), new SeaFood(), new Margherita() };
+
+            foreach (var pizza in allPizzas)
+            {
+                if (pizza.DefaultToppings.All(topping => selectedToppings.Contains(topping.Name)))
+                {
+                    return pizza;
+                }
+            }
+            return null;
+        }
     }
 }

@@ -73,8 +73,11 @@
             this.pizzaList.FullRowSelect = true;
             this.pizzaList.HideSelection = false;
             listViewItem1.StateImageIndex = 0;
+            listViewItem1.Tag = "1200";
             listViewItem2.StateImageIndex = 0;
+            listViewItem2.Tag = "1400";
             listViewItem3.StateImageIndex = 0;
+            listViewItem3.Tag = "1500";
             this.pizzaList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2,
@@ -122,12 +125,19 @@
             this.toppingList.FullRowSelect = true;
             this.toppingList.HideSelection = false;
             listViewItem4.StateImageIndex = 0;
+            listViewItem4.Tag = "100";
             listViewItem5.StateImageIndex = 0;
+            listViewItem5.Tag = "500";
             listViewItem6.StateImageIndex = 0;
+            listViewItem6.Tag = "500";
             listViewItem7.StateImageIndex = 0;
+            listViewItem7.Tag = "250";
             listViewItem8.StateImageIndex = 0;
+            listViewItem8.Tag = "250";
             listViewItem9.StateImageIndex = 0;
+            listViewItem9.Tag = "300";
             listViewItem10.StateImageIndex = 0;
+            listViewItem10.Tag = "100";
             this.toppingList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem4,
             listViewItem5,
